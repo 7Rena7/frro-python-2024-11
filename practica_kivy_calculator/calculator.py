@@ -7,39 +7,67 @@ from kivy.uix.gridlayout import GridLayout
 
 
 class Calculator(App):
-
     label = ""
+    operator = ""
+    firstTerm = ""
+    secondTerm = ""
 
     def presser(self, btn):
-        print(btn)
+        # print(btn)
         if btn == "CE":
-            self.aplicarCe()
+            self.borrar_label()
             return
-        if(btn in ["1","2","3","4","5","6","7","8","9","0"]):
-            print("El resultado es un numero " + btn)
-            self.aplicarNumero(btn)
-        else: print("El resultado no es un numero")
-        pass
 
-    def aplicarNumero(self, value):
-        print(len(self.label))
-        print(len(self.label)==0)
-        if(True):#self.label == "" and len(self.label)==0):
-            self.actualizarLabel(value)
+        if btn in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]:
+            print("El botón presionado fue un número " + btn)
+            self.actualizarLabel(btn)
+            return
 
-    def aplicarCe(self):
+        # Button is an operator
+        # Build a switch statement
+        if btn == "+":
+            self.firstTerm = self.label
+            self.operator = "+"
+            self.borrar_label()
+            return
+
+        if btn == "-":
+            self.firstTerm = self.label
+            self.operator = "-"
+            self.borrar_label()
+            return
+
+        if btn == "×":
+            self.firstTerm = self.label
+            self.operator = "*"
+            self.borrar_label()
+            return
+
+        if btn == "÷":
+            self.firstTerm = self.label
+            self.operator = "/"
+            self.borrar_label()
+            return
+
+        if btn == "=":
+            self.secondTerm = self.label
+            self.label = str(int(eval(self.firstTerm + self.operator + self.secondTerm)))
+            self.root.ids.label.text = self.label
+            return
+
+
+    def borrar_label(self):
         self.label = ""
         self.root.ids.label.text = self.label
 
-    def actualizarLabel(self,value):
-        if(self.label == "0"):
+    def actualizarLabel(self, value):
+        if self.label == "0":
             return
         self.label = self.label + value
-        self.root.ids.label.text =self.label
+        self.root.ids.label.text = self.label
+        print(self.label)
+        print(type(self.label))
+
 
 if __name__ == '__main__':
     Calculator().run()
-
-# Button
-# Grid Layout
-# Label
