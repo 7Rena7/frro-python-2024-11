@@ -13,40 +13,37 @@ class Calculator(App):
     secondTerm = ""
 
     def presser(self, btn):
-        # print(btn)
         if btn == "CE":
-            self.borrar_label()
+            self.erase_label()
             return
 
         if btn in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]:
-            print("El botón presionado fue un número " + btn)
-            self.actualizarLabel(btn)
+            self.update_label(btn)
             return
 
         # Button is an operator
-        # Build a switch statement
         if btn == "+":
             self.firstTerm = self.label
             self.operator = "+"
-            self.borrar_label()
+            self.erase_label()
             return
 
         if btn == "-":
             self.firstTerm = self.label
             self.operator = "-"
-            self.borrar_label()
+            self.erase_label()
             return
 
         if btn == "×":
             self.firstTerm = self.label
             self.operator = "*"
-            self.borrar_label()
+            self.erase_label()
             return
 
         if btn == "÷":
             self.firstTerm = self.label
             self.operator = "/"
-            self.borrar_label()
+            self.erase_label()
             return
 
         if btn == "=":
@@ -55,18 +52,15 @@ class Calculator(App):
             self.root.ids.label.text = self.label
             return
 
-
-    def borrar_label(self):
+    def erase_label(self):
         self.label = ""
         self.root.ids.label.text = self.label
 
-    def actualizarLabel(self, value):
+    def update_label(self, value):
         if self.label == "0":
             return
         self.label = self.label + value
         self.root.ids.label.text = self.label
-        print(self.label)
-        print(type(self.label))
 
 
 if __name__ == '__main__':
