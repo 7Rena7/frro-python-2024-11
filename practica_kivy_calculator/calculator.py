@@ -115,7 +115,7 @@ class Calculator(App):
         self.label = value
         self.root.ids.label.text = self.label
 
-    def clear_operator(self):
+    def clear_operator(self):a
         self.operator = ""
         self.label = self.firstTerm
 
