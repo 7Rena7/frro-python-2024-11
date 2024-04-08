@@ -1,11 +1,17 @@
 """Bloque IF, operadores lógicos, función max y operador ternario."""
 
+from helpers import check_int_or_float_parameters
+
 
 def maximo_basico(a: float, b: float) -> float:
     """Toma dos números y devuelve el mayor.
-
     Restricción: No utilizar la función max"""
-    pass # Completar
+    # Los parámetros pueden ser float o int
+    check_int_or_float_parameters(a, b)
+
+    if a > b:
+        return a
+    return b
 
 
 # NO MODIFICAR - INICIO
@@ -21,7 +27,8 @@ def maximo_libreria(a: float, b: float) -> float:
     """Re-escribir utilizando el built-in max.
     Referencia: https://docs.python.org/3/library/functions.html#max
     """
-    pass # Completar
+    check_int_or_float_parameters(a, b)
+    return max(a, b)
 
 
 # NO MODIFICAR - INICIO
@@ -37,7 +44,8 @@ def maximo_ternario(a: float, b: float) -> float:
     """Re-escribir utilizando el operador ternario.
     Referencia: https://docs.python.org/3/reference/expressions.html#conditional-expressions
     """
-    pass # Completar
+    check_int_or_float_parameters(a, b)
+    return a if a > b else b
 
 
 # NO MODIFICAR - INICIO
