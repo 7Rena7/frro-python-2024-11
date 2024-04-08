@@ -10,14 +10,7 @@ def suma_cubo_pares_for(numeros: Iterable[int]) -> int:
     Restricción: Utilizar dos bucles for, uno para elevar al cubo y otro para
     separar los pares.
     """
-    numeros_al_cubo = []
-    for numero in numeros:
-        numeros_al_cubo.append(numero ** 3)
-    suma = 0
-    for numero in numeros_al_cubo:
-        if numero % 2 == 0:
-            suma += numero
-    return suma
+    pass # Completar
 
 
 # NO MODIFICAR - INICIO
@@ -35,7 +28,7 @@ def suma_cubo_pares_sum_list(numeros: Iterable[int]) -> int:
     Referencia: https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions
     Referencia: https://docs.python.org/3/library/functions.html#sum
     """
-    return sum([numero ** 3 for numero in numeros if numero % 2 == 0])
+    pass # Completar
 
 
 # NO MODIFICAR - INICIO
@@ -51,7 +44,7 @@ def suma_cubo_pares_sum_gen(numeros: Iterable[int]) -> int:
     y la función sum.
     Referencia: https://docs.python.org/3/reference/expressions.html#generator-expressions
     """
-    return sum(numero ** 3 for numero in numeros if numero % 2 == 0)
+    pass # Completar
 
 
 # NO MODIFICAR - INICIO
@@ -68,23 +61,28 @@ assert suma_cubo_pares_sum_gen([1, 2, 3, 4, 5, 6]) == 288
 
 numeros = [1, 2, 3, 4, 5, 6]
 
+
 # Escribir una función lambda que eleve los elementos al cubo
-numeros_al_cubo = [(lambda x: x ** 3)(x) for x in numeros]
+
+numeros_al_cubo = # Completar
+
 
 # Escribir una función lambda que permita filtrar todos los elementos pares
 
-numeros_al_cubo_pares = list(filter(lambda x: x % 2 == 0, numeros_al_cubo))
+numeros_al_cubo_pares = # Completar
+
 
 # Escribir una función Lambda que sume todos los elementos
 
 from functools import reduce
 
-suma_numeros_al_cubo_pares = reduce(lambda x, y: x + y, numeros_al_cubo_pares)
+suma_numeros_al_cubo_pares = # Completar
+
 
 # Escribir una función Lambda que permita ordenar los elementos de la numeros
 # en base a si son pares o impares
 
-numeros_ordenada = sorted(numeros, key=lambda x: x % 2 == 0)
+numeros_ordenada = # Completar
 
 # NO MODIFICAR - INICIO
 assert numeros_al_cubo == [1, 8, 27, 64, 125, 216]
