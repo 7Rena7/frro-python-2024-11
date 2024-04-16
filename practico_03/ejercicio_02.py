@@ -10,7 +10,16 @@ class Articulo:
           clase (@classmethod) con una variable de clase
     """
 
-    # Completar
+    _last_id = 0
+
+    def __init__(self, nombre: str = None):
+        self.nombre = nombre
+        self.id_ = self._generate_id()
+
+    @classmethod
+    def _generate_id(cls):
+        cls._last_id += 1
+        return cls._last_id
 
 
 # NO MODIFICAR - INICIO
