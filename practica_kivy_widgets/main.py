@@ -11,10 +11,5 @@ if __name__ == '__main__':
 
 
 
-# Screen:
-#         name: "Pantalla 2"
-#         BoxLayout:
-#             orientation: "vertical"
-#             canvas:
-#                 Color:
-#                     rgb: [0.5,0.0]
+# Validacion para los botones
+# diabled: True if not(usuario.text and password.text and estadoServidor.text == "Servidor Online") else Falsed

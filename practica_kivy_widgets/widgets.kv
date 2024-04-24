@@ -2,28 +2,79 @@ ScreenManager:
     Screen:
         name: "Pantalla 1"
         BoxLayout:
-            orientation:"vertical"
+            orientation: "vertical"
             canvas:
                 Color:
-                    rgb: [0,0.5,0]
+                    rgb: [0, 0.5, 0]
                 Rectangle
                     pos: self.size
+                    size: self.size
             Label:
                 text: "Pantalla 1"
-            TextInput:
-                id: nombre
-                hint_text: 'Ingrese Nombre'
-                pos_hint: {'center_x':0.5,'center_y':0.75}
-                size_hint: 0.95,0.5
-                on_text: nombre.text 
+                font_size: 45
+            GridLayout:
+                cols: 1
+                rows: 3
+                padding: [20, 20, 20, 50]
+                spacing: 15
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Label:
+                        text: "Nombre: "
+                        font_size: 25
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        padding: [80, 0, 0, 0]
+                    TextInput:
+                        id: input_nombre
+                        hint_text: 'Juan'
+                        font_size: 25
+                        multiline: False
+                        write_tab: False
+                        size_hint_y: None
+                        height: self.minimum_height
+                        on_text: 
+                            print(input_nombre.text)
+                            print(len(input_nombre.text))
+                            self.border_color = [0,1,0,1] if len(self.text) >= 2 else [1,0,0,1]
+                        on_text_validate: input_apellido.focus = True
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Label:
+                        text: "Apellido: "
+                        font_size: 25
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        padding: [80, 0, 0, 0]
+                    TextInput:
+                        id: input_apellido
+                        hint_text: 'Perez'
+                        font_size: 25
+                        multiline: False
+                        write_tab: False
+                        size_hint_y: None
+                        height: self.minimum_height
+                        on_text: 
+                            print(input_apellido.text)
+                            print(len(input_apellido.text))
+                            self.border_color = [0,1,0,1] if len(self.text) >= 2 else [1,0,0,1]
+                        on_text_validate: submit_btn.focus = True
+
+                Button:
+                    id: submit_btn
+                    text: "Ir a pantalla 2"
+                    font_size: 25
+                    size_hint_x: None
+                    width: 200
+                    pos_hint_x: 0.5
+                    on_press:
+                        root.transition.direction = 'right'
+                        root.current = "Pantalla 2"
+                    
             
 
-            Button:
-                text: "Ir a pantalla 2"
-                on_press:
-                    root.transition.direction = 'right'
-                    root.current = "Pantalla 2"
-                size_hint: (0.3,0.1)
-                pos_hint: {'center_x':0.5, 'center_y':0.5}
+            
 
     
