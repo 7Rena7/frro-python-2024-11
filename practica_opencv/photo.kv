@@ -1,0 +1,23 @@
+GridLayout:
+    cols: 1
+    rows:1
+    margin: 10
+    spacing: 10
+
+    Camera:
+        id: camera
+        resolution: (1960, 1080)
+        play: True
+        canvas.before:
+            PushMatrix
+            Rotate:
+                angle: -90
+                origin: self.center
+        canvas.after:
+            PopMatrix
+    Button:
+        text: 'Tomar Foto'
+        size_hint_y: None
+        height: '48dp'
+        on_press: app.capture()
+
