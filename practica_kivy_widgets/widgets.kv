@@ -1,3 +1,12 @@
+<BorderTextInput@TextInput>:
+    border_color: 0, 0, 0, 1
+    canvas.after:
+        Color:
+            rgba: self.border_color
+        Line:
+            rectangle: self.x, self.y, self.width, self.height
+            width: 2
+
 ScreenManager:
     Screen:
         name: "Pantalla 1"
@@ -9,12 +18,18 @@ ScreenManager:
                 Rectangle
                     pos: self.size
                     size: self.size
+            ProgressBar:
+                id: progress_bar_1
+                value: 33
+                size_hint_y: None
+                height: '60dp'
+                pos_hint: {'center_x': 0.5, 'center_y': 2}
             Label:
-                text: "Pantalla 1"
+                text: "Datos personales"
                 font_size: 45
             GridLayout:
                 cols: 1
-                rows: 3
+                rows: 4
                 padding: [20, 20, 20, 50]
                 spacing: 15
 
@@ -26,7 +41,7 @@ ScreenManager:
                         size_hint_y: None
                         height: self.texture_size[1]
                         padding: [80, 0, 0, 0]
-                    TextInput:
+                    BorderTextInput:
                         id: input_nombre
                         hint_text: 'Juan'
                         font_size: 25
@@ -34,9 +49,7 @@ ScreenManager:
                         write_tab: False
                         size_hint_y: None
                         height: self.minimum_height
-                        on_text: 
-                            print(input_nombre.text)
-                            print(len(input_nombre.text))
+                        on_text:
                             self.border_color = [0,1,0,1] if len(self.text) >= 2 else [1,0,0,1]
                         on_text_validate: input_apellido.focus = True
 
@@ -48,7 +61,7 @@ ScreenManager:
                         size_hint_y: None
                         height: self.texture_size[1]
                         padding: [80, 0, 0, 0]
-                    TextInput:
+                    BorderTextInput:
                         id: input_apellido
                         hint_text: 'Perez'
                         font_size: 25
@@ -56,15 +69,233 @@ ScreenManager:
                         write_tab: False
                         size_hint_y: None
                         height: self.minimum_height
-                        on_text: 
-                            print(input_apellido.text)
-                            print(len(input_apellido.text))
+                        on_text:
                             self.border_color = [0,1,0,1] if len(self.text) >= 2 else [1,0,0,1]
+                        on_text_validate: input_dob.focus = True
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Label:
+                        text: "Fecha de nacimiento: "
+                        font_size: 25
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        padding: [80, 0, 0, 0]
+                    BorderTextInput:
+                        id: input_dob
+                        hint_text: '01/01/1990'
+                        font_size: 25
+                        multiline: False
+                        write_tab: False
+                        size_hint_y: None
+                        height: self.minimum_height
+                        on_text:
+                            self.border_color = [0,1,0,1] if app.validate_dob(self.text) else [1,0,0,1]
+                        on_text_validate: step_btn.focus = True
+
+                Button:
+                    id: step1_btn
+                    text: "Siguiente"
+                    font_size: 25
+                    size_hint_x: None
+                    width: 200
+                    pos_hint_x: 0.5
+                    on_press:
+                        root.transition.direction = 'left'
+                        root.current = "Pantalla 2"
+                    disabled: True if not(len(input_nombre.text) >= 2 and len(input_apellido.text) >= 2 and app.validate_dob(input_dob.text)) else False
+
+    Screen:
+        name: "Pantalla 2"
+        BoxLayout:
+            orientation: "vertical"
+            canvas:
+                Color:
+                    rgb: [0, 0.5, 0]
+                Rectangle
+                    pos: self.size
+                    size: self.size
+            ProgressBar:
+                id: progress_bar_2
+                value: 66
+                size_hint_y: None
+                height: '60dp'
+                pos_hint: {'center_x': 0.5, 'center_y': 2}
+            Label:
+                text: "Domicilio"
+                font_size: 45
+            GridLayout:
+                cols: 1
+                rows: 6
+                padding: [20, 20, 20, 50]
+                spacing: 15
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Label:
+                        text: "Calle: "
+                        font_size: 25
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        padding: [80, 0, 0, 0]
+                    BorderTextInput:
+                        id: input_calle
+                        hint_text: 'Zeballos 1341'
+                        font_size: 25
+                        multiline: False
+                        write_tab: False
+                        size_hint_y: None
+                        height: self.minimum_height
+                        on_text:
+                            self.border_color = [0,1,0,1] if len(self.text) >= 2 else [1,0,0,1]
+                        on_text_validate: input_departamento.focus = True
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Label:
+                        text: "Departamento: "
+                        font_size: 25
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        padding: [80, 0, 0, 0]
+                    BorderTextInput:
+                        id: input_departamento
+                        hint_text: '10A'
+                        font_size: 25
+                        multiline: False
+                        write_tab: False
+                        size_hint_y: None
+                        height: self.minimum_height
+                        on_text:
+                            self.border_color = [0,1,0,1] if app.validate_department(self.text) else [0,0,0,0] if self.text == '' else [1,0,0,1]
+                        on_text_validate: input_provincia.focus = True
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Label:
+                        text: "Provincia: "
+                        font_size: 25
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        padding: [80, 0, 0, 0]
+                    Spinner:
+                        id: input_provincia
+                        text: 'Seleccione una provincia'
+                        values: ('Buenos Aires', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba', 'Corrientes', 'Entre Ríos', 'Formosa', 'Jujuy', 'La Pampa', 'La Rioja', 'Mendoza', 'Misiones', 'Neuquén', 'Río Negro', 'Salta', 'San Juan', 'San Luis', 'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 'Tierra del Fuego', 'Tucumán')
+                        size_hint_y: None
+                        height: self.texture_size[1]
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Label:
+                        text: "Código postal: "
+                        font_size: 25
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        padding: [80, 0, 0, 0]
+                    BorderTextInput:
+                        id: input_codigo_postal
+                        hint_text: 'S2000'
+                        font_size: 25
+                        multiline: False
+                        write_tab: False
+                        size_hint_y: None
+                        height: self.minimum_height
+                        on_text:
+                            self.border_color = [0,1,0,1] if app.validate_postal_code(self.text) else [1,0,0,1]
+                        on_text_validate: step2_btn.focus = True
+
+                Button:
+                    id: step1_btn_back
+                    text: "Volver"
+                    font_size: 25
+                    size_hint_x: None
+                    width: 200
+                    pos_hint_x: 0.5
+                    on_press:
+                        root.transition.direction = 'right'
+                        root.current = "Pantalla 1"
+
+                Button:
+                    id: step2_btn
+                    text: "Siguiente"
+                    font_size: 25
+                    size_hint_x: None
+                    width: 200
+                    pos_hint_x: 0.5
+                    on_press:
+                        root.transition.direction = 'left'
+                        root.current = "Pantalla 3"
+                    disabled: True if not(app.validate_department(input_calle.text) and input_provincia.text != 'Seleccione una provincia' and app.validate_postal_code(input_codigo_postal.text)) else False
+
+    Screen:
+        name: "Pantalla 3"
+        BoxLayout:
+            orientation: "vertical"
+            canvas:
+                Color:
+                    rgb: [0, 0.5, 0]
+                Rectangle
+                    pos: self.size
+                    size: self.size
+            ProgressBar:
+                id: progress_bar_3
+                value: 100
+                size_hint_y: None
+                height: '60dp'
+                pos_hint: {'center_x': 0.5, 'center_y': 2}
+            Label:
+                text: "Datos de contacto"
+                font_size: 45
+            GridLayout:
+                cols: 1
+                rows: 4
+                padding: [20, 20, 20, 50]
+                spacing: 15
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Label:
+                        text: "Número de Teléfono: "
+                        font_size: 25
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        padding: [80, 0, 0, 0]
+                    BorderTextInput:
+                        id: input_numero_telefono
+                        hint_text: '3411234567'
+                        font_size: 25
+                        multiline: False
+                        write_tab: False
+                        size_hint_y: None
+                        height: self.minimum_height
+                        on_text:
+                            self.border_color = [0,1,0,1] if app.validate_telephone(self.text) else [1,0,0,1]
+                        on_text_validate: input_email.focus = True
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Label:
+                        text: "Email: "
+                        font_size: 25
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        padding: [80, 0, 0, 0]
+                    BorderTextInput:
+                        id: input_email
+                        hint_text: 'ejemplo@email.com'
+                        font_size: 25
+                        multiline: False
+                        write_tab: False
+                        size_hint_y: None
+                        height: self.minimum_height
+                        on_text:
+                            self.border_color = [0,1,0,1] if app.validate_email(self.text) else [1,0,0,1]
                         on_text_validate: submit_btn.focus = True
 
                 Button:
-                    id: submit_btn
-                    text: "Ir a pantalla 2"
+                    id: step2_btn_back
+                    text: "Volver"
                     font_size: 25
                     size_hint_x: None
                     width: 200
@@ -72,9 +303,16 @@ ScreenManager:
                     on_press:
                         root.transition.direction = 'right'
                         root.current = "Pantalla 2"
-                    
-            
 
-            
+                Button:
+                    id: submit_btn
+                    text: "Confirmar datos"
+                    font_size: 25
+                    size_hint_x: None
+                    width: 200
+                    pos_hint_x: 0.5
+                    on_press:
+                        app.on_form_submit()
+                    disabled: True if not(app.validate_telephone(input_numero_telefono.text) and app.validate_email(input_email.text)) else False
 
     
