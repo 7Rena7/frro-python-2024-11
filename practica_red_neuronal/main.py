@@ -1,4 +1,5 @@
 import cv2
+import time
 
 classNames = {0: 'background',
               1: 'aeroplane',
@@ -72,6 +73,14 @@ while True:
                               (xLeftBottom + labelSize[0], yLeftBottom + baseLine),
                               (255, 255, 255), cv2.FILLED)
                 cv2.putText(frame, label, (xLeftBottom, yLeftBottom), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
+
+                # Save the image recognized if it's a person
+                if class_id == 15:
+                    timenow = time.strftime("%Y%m%d_%H%M%S")
+                    imagename = "./images/myimage_{}.png".format(timenow)
+                    crop_img = frame[yLeftBottom:yRightTop, xLeftBottom:xRightTop]
+                    cv2.imwrite(imagename, crop_img)
+                    print("Image saved as: ", imagename)
                 
                 print(label)
 
