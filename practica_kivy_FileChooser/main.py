@@ -1,39 +1,50 @@
-# Program to explain how to use File chooser in kivy 
-
-# import kivy module	 
-import kivy
-
-# base Class of your App inherits from the App class.	 
-# app:always refers to the instance of your application 
+import os
+import platform
 from kivy.app import App
-
-# this restrict the kivy version i.e 
-# below this kivy version you cannot 
-# use the app or software 
-kivy.require('1.9.0')
-
-# BoxLayout arranges widgets in either in
-# a vertical fashion that is one on top of
-# another or in a horizontal fashion
-# that is one after another. 
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.filechooser import FileChooserListView
 
+class FileChooser(BoxLayout):
+    def __init__(self, **kwargs):
+        super(FileChooser, self).__init__(**kwargs)
+        self.orientation = 'vertical'
 
-# create the layout class
-class Filechooser(BoxLayout):
-    def select(self, *args):
+        self.label = Label(text='Seleccione un archivo')
+        self.add_widget(self.label)
+
+        self.filechooser = FileChooserListView()
+        self.filechooser.bind(on_selection=self.on_file_select)
+        self.add_widget(self.filechooser)
+
+        self.open_button = Button(text='Abrir')
+        self.open_button.bind(on_press=self.open_file)
+        self.add_widget(self.open_button)
+
+    def on_file_select(self, filechooser, selection):
+        if selection:
+            self.label.text = selection[0]
+
+    def open_file(self, instance):
+        if self.filechooser.selection:
+            selected_file = self.filechooser.selection[0]
+            self.open_with_default_app(selected_file)
+
+    def open_with_default_app(self, file_path):
         try:
-            self.label.text = args[1][0]
-        except:
-            pass
+            if platform.system() == 'Darwin':  # macOS
+                os.system(f'open "{file_path}"')
+            elif platform.system() == 'Windows':  # Windows
+                os.system(f'start "" "{file_path}"')
+            else:  # Linux
+                os.system(f'xdg-open "{file_path}"')
+        except Exception as e:
+            print(f'Error opening file: {e}')
 
-
-# Create the App class
-class Widgets(App):
+class FileChooserApp(App):
     def build(self):
-        return Filechooser()
+        return FileChooser()
 
-
-# run the App
 if __name__ == '__main__':
-    Widgets().run()
+    FileChooserApp().run()

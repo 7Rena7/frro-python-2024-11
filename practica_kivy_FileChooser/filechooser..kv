@@ -1,0 +1,11 @@
+<FileChooser>:
+    orientation: 'vertical'
+    Label:
+        id: file_label
+        text: 'Seleccione un archivo'
+    FileChooserListView:
+        id: filechooser
+        on_selection: root.on_file_select(self, self.selection)
+    Button:
+        text: 'Abrir'
+        on_press: root.open_file(self)
