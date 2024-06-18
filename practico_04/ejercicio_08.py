@@ -1,10 +1,11 @@
 """Base de datos SQL - Listar"""
 
 import datetime
+import sqlite3
 
-from practico_04.ejercicio_02 import agregar_persona
-from practico_04.ejercicio_06 import reset_tabla
-from practico_04.ejercicio_07 import agregar_peso
+from ejercicio_02 import agregar_persona
+from ejercicio_06 import reset_tabla
+from ejercicio_07 import agregar_peso
 
 
 def listar_pesos(id_persona):
@@ -30,7 +31,20 @@ def listar_pesos(id_persona):
 
     - False en caso de no cumplir con alguna validacion.
     """
-    return []
+    db = sqlite3.connect("my_db.db")
+
+    cursor = db.cursor()
+    cadenaSQL = """SELECT * FROM Persona WHERE IdPersona = {}""".format(id_persona)
+    cursor.execute(cadenaSQL)
+    result = cursor.fetchone()
+    if not result:
+        return False
+
+    cadenaSQL = """SELECT Fecha, Peso FROM PersonaPeso WHERE IdPersona = {}""".format(id_persona)
+    cursor.execute(cadenaSQL)
+    result = cursor.fetchall()
+    db.close()
+    return result
 
 
 # NO MODIFICAR - INICIO
@@ -44,6 +58,7 @@ def pruebas():
         ('2018-05-01', 80),
         ('2018-06-01', 85),
     ]
+    print(pesos_juan)
     assert pesos_juan == pesos_esperados
     # id incorrecto
     assert listar_pesos(200) == False
