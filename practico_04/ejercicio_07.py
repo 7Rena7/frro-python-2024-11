@@ -2,8 +2,9 @@
 
 import datetime
 
-from practico_04.ejercicio_02 import agregar_persona
-from practico_04.ejercicio_06 import reset_tabla
+import sqlite3
+from ejercicio_02 import agregar_persona
+from ejercicio_06 import reset_tabla
 
 
 def agregar_peso(id_persona, fecha, peso):
@@ -19,8 +20,26 @@ def agregar_peso(id_persona, fecha, peso):
     Debe devolver:
     - ID del peso registrado.
     - False en caso de no cumplir con alguna validacion."""
+    db = sqlite3.connect("my_db.db")
 
-    pass # Completar
+    cursor = db.cursor()
+    cadenaSQL = """SELECT * FROM Persona WHERE IdPersona = {}""".format(id_persona)
+    cursor.execute(cadenaSQL)
+    result = cursor.fetchone()
+    if not result:
+        return False
+
+    cadenaSQL = """SELECT * FROM PersonaPeso WHERE IdPersona = {} AND Fecha > '{}'""".format(id_persona, fecha)
+    cursor.execute(cadenaSQL)
+    result = cursor.fetchone()
+    if result:
+        return False
+
+    cadenaSQL = """INSERT INTO PersonaPeso (IdPersona, Fecha, Peso) VALUES ({}, '{}', {})""".format(id_persona, fecha, peso)
+    cursor.execute(cadenaSQL)
+    db.commit()
+    db.close()
+    return cursor.lastrowid
 
 
 # NO MODIFICAR - INICIO
