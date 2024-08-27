@@ -29,8 +29,12 @@ def crear_tabla_peso():
 def borrar_tabla_peso():
     """Implementar la funcion borrar_tabla, que borra la tabla creada 
     anteriormente."""
-    pass # Completar
-
+    db = sqlite3.connect("my_db.db")
+    cursor = db.cursor()
+    
+    cursor.execute("DROP TABLE IF EXISTS PersonaPeso")
+    db.commit()
+    db.close()
 
 # NO MODIFICAR - INICIO
 def reset_tabla(func):

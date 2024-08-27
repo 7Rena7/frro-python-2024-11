@@ -32,19 +32,21 @@ def listar_pesos(id_persona):
     - False en caso de no cumplir con alguna validacion.
     """
     db = sqlite3.connect("my_db.db")
-
     cursor = db.cursor()
-    cadenaSQL = """SELECT * FROM Persona WHERE IdPersona = {}""".format(id_persona)
-    cursor.execute(cadenaSQL)
+    
+    cursor.execute("SELECT * FROM Persona WHERE IdPersona = ?", (id_persona,))
     result = cursor.fetchone()
     if not result:
+        db.close()
         return False
-
-    cadenaSQL = """SELECT Fecha, Peso FROM PersonaPeso WHERE IdPersona = {}""".format(id_persona)
-    cursor.execute(cadenaSQL)
+    
+    cursor.execute("SELECT Fecha, Peso FROM PersonaPeso WHERE IdPersona = ?", (id_persona,))
     result = cursor.fetchall()
+    
+    pesos_formateados = [(fecha.split()[0], peso) for fecha, peso in result]
+    
     db.close()
-    return result
+    return pesos_formateados
 
 
 # NO MODIFICAR - INICIO

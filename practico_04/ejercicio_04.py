@@ -18,7 +18,14 @@ def buscar_persona(id_persona):
     cursor.execute(cadenaSQL)
     result = cursor.fetchone()
     db.close()
-    return result if result else False
+    
+    if result:
+        # Convertir la fecha a datetime.datetime
+        id_persona, nombre, fecha_str, dni, altura = result
+        fecha = datetime.datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
+        return (id_persona, nombre, fecha, dni, altura)
+    else:
+        return False
 
 
 # NO MODIFICAR - INICIO

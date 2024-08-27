@@ -31,14 +31,11 @@ def borrar_tabla():
     db = sqlite3.connect("my_db.db")
 
     cursor = db.cursor()
-    cadenaSQL = """DROP TABLE Persona"""
+    cadenaSQL = """DROP TABLE IF EXISTS Persona"""
     cursor.execute(cadenaSQL)
 
-    cadenaSQL = """DROP TABLE PersonaPeso"""
-    cursor.execute(cadenaSQL)
     db.commit()
     db.close()
-
 
 # NO MODIFICAR - INICIO
 def reset_tabla(func):
@@ -48,4 +45,3 @@ def reset_tabla(func):
         borrar_tabla()
     return func_wrapper
 # NO MODIFICAR - FIN
-# borrar_tabla()
